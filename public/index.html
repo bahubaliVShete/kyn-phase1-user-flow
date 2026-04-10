@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KYN AI — Post Phase 1 User Flow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: #1C1C1E;
+            color: #FFFFFF;
+            overflow-x: auto;
+            padding: 40px 20px;
+        }
+
+        .container {
+            max-width: 100%;
+            min-width: 100%;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            font-size: 14px;
+            color: #8E8E93;
+            margin-bottom: 30px;
+        }
+
+        .legend {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .legend-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-new {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+            color: #81C784;
+        }
+
+        .badge-changed {
+            background: rgba(212, 168, 67, 0.2);
+            border: 1px solid rgba(212, 168, 67, 0.5);
+            color: #D4A843;
+        }
+
+        .stats-row {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            font-size: 13px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 600;
+            color: #D4A843;
+        }
+
+        .stat-label {
+            color: #8E8E93;
+        }
+
+        .journey-container {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 20px;
+            background: rgba(44, 44, 46, 0.5);
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .phase {
+            flex: 0 0 auto;
+            width: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .phase-header {
+            padding: 16px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .phase-activate .phase-header {
+            background: #4CAF50;
+        }
+
+        .phase-onboard .phase-header {
+            background: #2196F3;
+        }
+
+        .phase-engage .phase-header {
+            background: #FF9800;
+        }
+
+        .phase-reflect .phase-header {
+            background: #F44336;
+        }
+
+        .phase-optimize .phase-header {
+            background: #9C27B0;
+        }
+
+        .phase-retain .phase-header {
+            background: #009688;
+        }
+
+        .phase-content {
+            background: #2C2C2E;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .journey-card {
+            padding: 12px 14px;
+            border-bottom: 1px solid #3A3A3C;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 12px;
+            line-height: 1.4;
+            position: relative;
+        }
+
+        .journey-card:last-child {
+            border-bottom: none;
+        }
+
+        .journey-card:hover {
+            background: #3A3A3C;
+            padding-left: 18px;
+        }
+
+        .journey-card.changed {
+            border-left: 3px solid #D4A843;
+        }
+
+        .journey-card.new {
+            border-left: 3px solid #4CAF50;
+            background: rgba(76, 175, 80, 0.08);
+        }
+
+        .journey-card-badge {
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        .journey-card-title {
+            font-weight: 500;
+            color: #FFFFFF;
+            margin-bottom: 4px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .journey-card-desc {
+            font-size: 11px;
+            color: #8E8E93;
+        }
+
+        .data-capture-section {
+            margin-bottom: 40px;
+        }
+
+        .what-enables-section {
+            margin-bottom: 40px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 16px;
+            color: #D4A843;
+        }
+
+        .data-capture-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .data-item {
+            padding: 12px 14px;
+            background: #2C2C2E;
+            border: 1px solid #3A3A3C;
+            border-radius: 6px;
+            font-size: 12px;
+            color: #FFFFFF;
+        }
+
+        .enables-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+        }
+
+        .enable-item {
+            padding: 16px;
+            background: #2C2C2E;
+            border-left: 3px solid #D4A843;
+            border-radius: 6px;
+        }
+
+        .enable-phase {
+            font-size: 12px;
+            color: #D4A843;
+            font-weight: 600;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .enable-desc {
+            font-size: 13px;
+            color: #FFFFFF;
+            line-height: 1.5;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            animation: fadeIn 0.2s ease;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: #2C2C2E;
+            border: 1px solid #3A3A3C;
+            border-radius: 12px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            padding: 30px;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .modal-header {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #D4A843;
+        }
+
+        .modal-status {
+            font-size: 11px;
+            margin-bottom: 16px;
+            padding: 4px 0;
+        }
+
+        .modal-status.new {
+            color: #81C784;
+        }
+
+        .modal-status.changed {
+            color: #D4A843;
+        }
+
+        .modal-field {
+            margin-bottom: 16px;
+        }
+
+        .modal-label {
+            font-size: 12px;
+            color: #8E8E93;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+            display: block;
+        }
+
+        .modal-value {
+            font-size: 14px;
+            color: #FFFFFF;
+            line-height: 1.6;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 16px;
+            right: 16px;
+            background: none;
+            border: none;
+            color: #8E8E93;
+            font-size: 24px;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .modal-close:hover {
+            color: #FFFFFF;
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 24px;
+            }
+
+            .phase {
+                width: 240px;
+            }
+
+            .journey-container {
+                padding: 16px;
+            }
+
+            .legend {
+                flex-direction: column;
+                gap: 12px;
+            }
+
+            .data-capture-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>KYN AI — Post Phase 1 User Flow</h1>
+        <p class="subtitle">Updated journey with Phase 1 optimizations and streamlined flows</p>
+
+        <div class="legend">
+            <div class="legend-item">
+                <span class="legend-badge badge-new">NEW</span>
+                <span>New screen or flow</span>
+            </div>
+            <div class="legend-item">
+                <span class="legend-badge badge-changed">CHANGED</span>
+                <span>Existing flow modified</span>
+            </div>
+            <div class="legend-item">
+                <span>No badge = Unchanged</span>
+            </div>
+        </div>
+
+        <div class="journey-container">
+            <!-- ACTIVATE Phase (unchanged) -->
+            <div class="phase phase-activate">
+                <div class="phase-header">
+                    <span>⚡ ACTIVATE</span>
+                </div>
+                <div class="phase-content">
+                    <div class="journey-card" onclick="openModal(event, 'ActivateKYN', 'unchanged', 'Validate S&T membership using email address from MarianaTek database.', 'Email address', 'Verified member status')">
+                        <div class="journey-card-title">ActivateKYN</div>
+                        <div class="journey-card-desc">Validate S&T membership</div>
+                    </div>
+                    <div class="journey-card" onclick="openModal(event, 'CreateAccount', 'unchanged', 'Create account with Firebase auth using prefilled name from MarianaTek CRM.', 'Email, prefilled name', 'Auth token, user profile')">
+                        <div class="journey-card-title">CreateAccount</div>
+                        <div class="journey-card-desc">Firebase auth + prefilled name</div>
+                    </div>
+                    <div class="journey-card" onclick="openModal(event, 'Notification Permission', 'unchanged', 'Request permission for push notifications.', 'User consent', 'Push permission status')">
+                        <div class="journey-card-title">Notification Permission</div>
+                        <div class="journey-card-desc">Push notification opt-in</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ONBOARD Phase (with changes) -->
+            <div class="phase phase-onboard">
+                <div class="phase-header">
+                    <span>📋 ONBOARD</span>
+                </div>
+                <div class="phase-content">
+                    <div class="journey-card" onclick="openModal(event, 'Welcome &amp; Intake', 'unchanged', 'Capture basic fitness profile: height, weight, age, gender, fitness goal, frequency per week.', 'Height, weight, age, gender, goal, frequency', 'User profile data')">
+                        <div class="journey-card-title">Welcome &amp; Intake</div>
+                        <div class="journey-card-desc">Height, weight, goal, frequency</div>
+                    </div>
+                    <div class="journey-card new" onclick="openModal(event, 'Calendar Preferences', 'new', 'Capture blocked times (when NOT available) and preferred workout windows. Used as hard constraints for all scheduling.', 'Availability calendar, time windows', 'Calendar constraints saved')">
+                        <div class="journey-card-title">
+                            🆕 Calendar Preferences
+                        </div>
+                        <div class="journey-card-desc">Blocked times + workout windows</div>
+                        <div class="journey-card-badge">
+                            <span class="legend-badge badge-new">NEW</span>
+                        </div>
+                    </div>
+                    <div class="journey-card changed" onclick="openModal(event, 'Score Introduction (Sweat Only)', 'changed', 'Show ONLY Sweat insight with context about what it means. Recover and Connect hidden until Phase 2/3.', 'Score calculation', 'Sweat insight only')">
+                        <div class="journey-card-title">Score Introduction</div>
+                        <div class="journey-card-desc">Sweat only (was: all 3)</div>
+                        <div class="journey-card-badge">
+                            <span class="legend-badge badge-changed">CHANGED</span>
+                        </div>
+                    </div>
+                    <div class="journey-card new" onclick="openModal(event, 'Favorite Classes Swipe UX', 'new', 'Dating-app style swiping to favorite classes. Swipe right to favorite, left to skip. Cards show class name, instructor, time patterns.', 'Swipe gestures', 'Favorite classes list')">
+                        <div class="journey-card-title">
+                            🆕 Favorite Classes Swipe
+                        </div>
+                    ]��\��H���\��^KX�\�Y\�ȏ��\X�\�\�X�\�Y�[X�[ۏ�]���]��\��H���\��^KX�\�X�Y�H����[��\��H�Y�[�X�Y�H�Y�K[�]ȏ��U���[����]����]���]��\��H���\��^KX�\��ۘ�X��H��[�[�[
+]�[�	��Y[����Y�\�[��\��	�[��[��Y	�	��[X��Y�\��Y���Xܛ���LH�Y[�^[�]�
+��۝ZYK�X��]�K��	��Y[�^[�]�[X�[ۉ�	����Y�\�[��\��]�Y	�H���]��\��H���\��^KX�\�]]H���Y[����Y�\�[��\��]���]��\��H���\��^KX�\�Y\�ȏ�X�����Xܛ���LH^[�]��]����]����]����]����KKHS��Q�H\�H
+�]�[��\�HKO��]��\��H�\�H\�KY[��Y�H���]��\��H�\�KZXY\�����[��'��S��Q�O��[����]���]��\��H�\�KX�۝[����]��\��H���\��^KX�\��[��Y�ۘ�X��H��[�[�[
+]�[�	��YH\���\�	�	��[��Y	�	�\���\�
+�]KY�]�[����X�\��	����YZ�H�H	�����Y[JH
+���X]Y]�X��\��]U�H��ܙK���ܙH�\�[�\��Y�Y���[�\]Y�[��H\��Y]�Y�[��[��\�X[�YY�X��][�\�X�]�]H\��Z[���X��Y[��X[][YK��	�\�\��]K]�HY]�X���	�\���\��]]�H��X]��ܙI�H����[��\��H��Y�H�Y�KX�[��Y���S��Q��[���]��\��H���\��^KX�\�]]H���YH\���\��]���]��\��H���\��^KX�\�Y\�ȏ�\��
+�[\��\���]����]���]��\��H���\��^KX�\��]Ȉۘ�X��H��[�[�[
+]�[�	�ۙKP�X������[���\�	�	ۙ]��	���Z[�[��\�ۈ�YH\���\��	�][��[�\��YZ�\��XYH8�%\����ɜ][�ˈ��ۙ�\��\�YY[��YZ�H�X��Z[���	�\�\��XYH�]I�	Л���[��[�\��X�I�H���]��\��H���\��^KX�\�]]H���<'�HۙKP�X������[��]���]��\��H���\��^KX�\�Y\�ȏ��[�[ۙK��Z[�[��\��]���]��\��H���\��^KX�\�X�Y�H����[��\��H�Y�[�X�Y�H�Y�K[�]ȏ��U���[����]����]���]��\��H���\��^KX�\��ۘ�X��H��[�[�[
+]�[�	���Y[H	�[\������	�[��[��Y	�	ӓ�X\��X\���]
+��[\�Έ��[[YK\K[���X�܋�Y[���][ۋ��	��X\��]Y\�K�[\���	њ[\�Y�\��\�	�H���]��\��H���\��^KX�\�]]H����Y[H	�[\������]���]��\��H���\��^KX�\�Y\�ȏ��X\��X\��
+�
+��[\���]����]���]��\��H���\��^KX�\��[��Y�ۘ�X��H��[�[�[
+]�[�	Л���[���]�Y�\��Y����	��[��Y	�	����Y�\�[��\�����\��X�Y\�[������[������]	�][��\�H^H�Y�\��Y��	�][�����K��	��\���[X�[ۋ�����I�	��ۙ�\�YY����[���]��	�H���]��\��H���\��^KX�\�]]H������[���]�Y]�
+����]���]��\��H���\��^KX�\�Y\�ȏ��Y�\��Y���[�����]���]��\��H���\��^KX�\�X�Y�H����[��\��H�Y�[�X�Y�H�Y�KX�[��Y���S��Q��[����]����]���]��\��H���\��^KX�\��[��Y�ۘ�X��H��[�[�[
+]�[�	њ[\�\��\�[��I�	��[��Y	�	њ[\��[X�[ۜ����\��\�Xܛ�������[���\��[ۜˈ��ۙ�\��X\�Yۈ���]��\��[ۈ[���	њ[\��]I�	�\��\�[��[\���H���]��\��H���\��^KX�\�]]H��\��\�[��[\���]���]��\��H���\��^KX�\�Y\�ȏ��[\���]Z[��]O�]���]��\��H���\��^KX�\�X�Y�H����[��\��H�Y�[�X�Y�H�Y�KX�[��Y���S��Q��[����]����]���]��\��H���\��^KX�\��]Ȉۘ�X��H��[�[�[
+]�[�	��X��R[��Y�ܙH�\���	ۙ]��	��[���][ۋX�\�Y�Y[��X��Z[��Y��\�Y�[�Y[X�\�\��]�\�]H�Y[��Y�ܙH�\�ˈ�ۙ�\�\�][�[��K�\\�\�\��]�[[YK[��[Y\�H��X�\����ˈ�\\�]H���H��P�\���X��R[�8�%\�\�X��]�ۙ�\�Z[���\�[��K���][��Y��ܝ��	��[���][ۋ�\������[��\��]�[[YI�	�][�[��H�ۙ�\�YY�KX�\��]H�\\�Y	�H���]��\��H���\��^KX�\�]]H���<'�H�X��R[��Y�ܙH�\��]���]��\��H���\��^KX�\�Y\�ȏ��[���][ۈ�Y[�\��]�[�]���]��\��H���\��^KX�\�X�Y�H����[��\��H�Y�[�X�Y�H�Y�K[�]ȏ��U���[����]����]����]����]����KKH�Q�P�\�H
+�]�[��\�HKO��]��\��H�\�H\�K\�Y�X����]��\��H�\�KZXY\�����[��'�H�Q�P���[����]���]��\��H�\�KX�۝[����]��\��H���\��^KX�\��[��Y�ۘ�X��H��[�[�[
+]�[�	���P�\���X��R[�
+�]�H��ܙI�	��[��Y	�	Ԙ]HY��ܝ
+�HKLL
+H�]�[���][ۈ�\�Y�X�][ۋ��UΈ[[YYX][HY�\��X��Z[���X]��ܙH\]\�]�H�][�[X][ۈ
+K�ˈ
+̈8���
+�
+̊K�[��[�ܘ]Y�X�][ۈ8�%Y[X�\��Y\�Z\���ܙH[ݙHH[�Y[�^HX]�H�\�ˈ��[ܙH�Z][��[�[�YZ�H�X��Z[���YH��ܙ\�ˉ�	ԔH�][���[���][ۋ�\��]I�	��X��Z[�]H
+�]�H��X]��ܙH\]H
+���ܙH[�[X][ۉ�H����[��\��H��Y�H�Y�KX�[��Y���S��Q��[���]��\��H���\��^KX�\�]]H����P�\���X��R[�
+�]�H��ܙO�]���]��\��H���\��^KX�\�Y\�ȏ��H
+�[��[���X]��ܙH\]O�]����]���]��\��H���\��^KX�\��[��Y�ۘ�X��H��[�[�[
+]�[�	�]ZX���YZ�H�Y�X�[ۉ�	��[��Y	�	��[\Y�YY]ZX��ZXܛ��X��Z[����ۙ�\�H�\\�HX\�]ۋ��^X�H[Z[�Έ�[��\�[�][YH
+�����Y���HPSJK��	�]ZX���]�Y]�\�\��Y�X�[ۉ�	ԙY�X�[ۈ�]�Y	�H���]��\��H���\��^KX�\�]]H��]ZX���YZ�H�Y�X�[ۏ�]���]��\��H���\��^KX�\�Y\�ȏ�]ZX��ZXܛ��X��Z[��]���]��\��H���\��^KX�\�X�Y�H����[��\��H�Y�[�X�Y�H�Y�KX�[��Y���S��Q��[����]����]���]��\��H���\��^KX�\���[OH��X��ܛ�[���ؘJ
+͋M�K�JN��ܙ\�]��\��Y�ؘJ
+͋M�K��Nȏ��]��\��H���\��^KX�\�]]H��[OH���܎��P��
+ȏ����^X�H[Z[���]���]��\��H���\��^KX�\�Y\�ȏ��[��\�[�][YH
+�ˈ��HPSJO�]����]����]����]����KKH�SRV�H\�H
+�]�[��\�HKO��]��\��H�\�H\�K[�[Z^�H���]��\��H�\�KZXY\�����[��'���SRV�O��[����]���]��\��H�\�KX�۝[����]��\��H���\��^KX�\��[��Y�ۘ�X��H��[�[�[
+]�[�	��ٝ��[[YۛY[�	�	��[��Y	�	���[[YۛY[�\��\[Y[�\�K���[X\�K�����	�][��[�\���][�K�[Z^�Y	�][����	�][��\�W	���][�H��[�[��I�][�ˉ�	���[�][Y[�\�ܞI�	���[[YۛY[��Y��\�[ۜ��H���]��\��H���\��^KX�\�]]H���ٝ��[[YۛY[��]���]��\��H���\��^KX�\�Y\�ȏ��\[Y[�\�K���\�ܚ\]�O�]���]��\��H���\��^KX�\�X�Y�H����[��\��H�Y�[�X�Y�H�Y�KX�[��Y���S��Q��[����]����]���]��\��H���\��^KX�\��[��Y�ۘ�X��H��[�[�[
+]�[�	�\�ܞKQ�\��]]�P����[���	��[��Y	�	�]]�X����[��XY��]����[��\�ܞK��H8���L	H[YH�ۜ��Z[��ܛ���X�]Y�ܞH�Y��\�[ۜ��[[ݙY��	�\�ܚX�[����[��]I�	�]]�X����[���[\��H���]��\��H���\��^KX�\�]]H��]]�P����[���\��][ۙY�]���]��\��H���\��^KX�\�Y\�ȏ�\�ܞKY�\��\��X��]���]��\��H���\��^KX�\�X�Y�H����[��\��H�Y�[�X�Y�H�Y�KX�[��Y���S��Q��[����]����]����]����]����KKH�URS�\�H
+[��[��Y
+HKO��]��\��H�\�H\�K\�]Z[����]��\��H�\�KZXY\�����[���d�URS���[����]���]��\��H�\�KX�۝[����]��\��H���\��^KX�\��ۘ�X��H��[�[�[
+]�[�	��ٚ[HX��	�[��[��Y	�	͈�X�[ۜΈ\��ۘ[[����Y�\�[��\�����][����YY�X��ۘ\����	�\�\��ٚ[H]I�	��ٚ[H\]Y	�H���]��\��H���\��^KX�\�]]H���ٚ[HX��]���]��\��H���\��^KX�\�Y\�ȏ���ٚ[H�X�[ۜ��]����]���]��\��H���\��^KX�\��ۘ�X��H��[�[�[
+]�[�	��Q^Hۘ\��	�	�[��[��Y	�	ԙK]\�\�ۘ��\�[���Y\�V�]\]Y\�ܚX�[]H[���ܙ\�ˉ�	�\�ܚX�[]I�	�ۘ\���Y]��H���]��\��H���\��^KX�\�]]H���Q^Hۘ\���]���]��\��H���\��^KX�\�Y\�ȏ�\]Y�Y\��Y]��]����]���]��\��H���\��^KX�\��ۘ�X��H��[�[�[
+]�[�	��][���	�[\��YY�X���	�[��[��Y	�	�X���[�X[�Y�[Y[�\�][����[�\���YY�X���X�Z\��[ۋ��	�\�\��Y�\�[��K�YY�X���	��][���\]Y	�H���]��\��H���\��^KX�\�]]H���][���	�[\��YY�X���]���]��\��H���\��^KX�\�Y\�ȏ�X���[�
+��[�\���]����]����]����]����]����]��\��H�]KX�\\�K\�X�[ۈ���]��\��H��X�[ۋ]]H��'��\�HH]H�\\�O�]���]��\��H�]KX�\\�KYܚY���]��\��H�]KZ][H������[��]\���	�\�ܞO�]���]��\��H�]KZ][H���[��[][ۈ�Z]�[܏�]���]��\��H�]KZ][H��[YH�Y�\�[��\�	��[�����]���]��\��H�]KZ][H���]�ܚ]H�\��\�	�]\����]���]��\��H�]KZ][H�����Y�\�[��\��H�Y[��]���]��\��H�]KZ][H���H�][���\��\���]���]��\��H�]KZ][H��]�H��X]��ܙH[\�\��\���]���]��\��H�]KZ][H���KX�\���X��Z[�	�][�[��O�]���]��\��H�]KZ][H���X\��]Y\�Y\�	�[�[��]���]��\��H�]KZ][H����[�][Y[��	�]��][ۏ�]����]����]����]��\��H��]Y[�X�\�\�X�[ۈ���]��\��H��X�[ۋ]]H��'��]\�[�X�\��]���]��\��H�[�X�\�YܚY���]��\��H�[�X�KZ][H���]��\��H�[�X�K\\�H��\�H���ۛ�X��]���]��\��H�[�X�KY\�ȏ���Y[�����[����Y[H�\�[����[][�]H�X]\�\�8�%[X[�[�XYH^\��[�\�\��Yۘ[��]����]���]��\��H�[�X�KZ][H���]��\��H�[�X�K\\�H��\�HΈ�X�ݙ\�O�]���]��\��H�[�X�KY\�ȏ��X��Z[�^[��[ۋX�]�]H�\\�K�[�Y]�X�[�Yܘ][ۈ8�%�\]Z\�\�]H\[[�H���H\�HH��[�][ۏ�]����]���]��\��H�[�X�KZ][H���]��\��H�[�X�K\\�H���][�[ۏ�]���]��\��H�[�X�KY\�ȏ��YX�Yۘ��\�[����X�[ۋۙKX�X������[��\��\�[��Y�\�[��\�HY�\�X�]�][ۈ	�����[����\]Y[��O�]����]����]����]�����[OH���܎��NNL���۝\�^�N�L��^X[Yێ��[�\��X\��[�]��
+ȏ��X��[�H�\���Y]��ܙY[�]Z[�����]����]��\��H�[�[�YH�]Z[[�[�ۘ�X��H����S[�[
+]�[�
+H���]��\��H�[�[X�۝[��ۘ�X��H�]�[������Y�][ۊ
+H����]ۈ�\��H�[�[X���H�ۘ�X��H����S[�[
+
+H����؝]ۏ��]��\��H�[�[ZXY\��YH�[�[]H���]���]��\��H�[�[\�]\ȈYH�[�[�]\ȏ��]���]��\��H�[�[Y�Y[���X�[�\��H�[�[[X�[��\�ܚ\[ۏ�X�[��]��\��H�[�[]�[YH�YH�[�[\�ȏ��]����]���]��\��H�[�[Y�Y[���X�[�\��H�[�[[X�[��[�]��X�[��]��\��H�[�[]�[YH�YH�[�[[�]ȏ��]����]���]��\��H�[�[Y�Y[���X�[�\��H�[�[[X�[���]]��X�[��]��\��H�[�[]�[YH�YH�[�[�]]ȏ��]����]����]����]�����ܚ\���[��[ۈ�[�[�[
+]�[�]K�]\�\��[�]��]]�HY�
+]�[�
+H]�[������Y�][ۊ
+N��[Y[���][[Y[��RY
+	�[�[]I�K�^�۝[�H]N��ۜ��]\�[H��[Y[���][[Y[��RY
+	�[�[�]\��NY�
+�]\�OOH	ۙ]��H�]\�[�^�۝[�H	��*�U�[�\�HI��]\�[��\�Ә[YHH	�[�[\�]\��]��H[�HY�
+�]\�OOH	��[��Y	�H�]\�[�^�۝[�H	�'�!�S��Q[�\�HI��]\�[��\�Ә[YHH	�[�[\�]\��[��Y	�H[�H�]\�[�^�۝[�H	�[��[��Y���H�\��[�	��]\�[��\�Ә[YHH	�[�[\�]\���]\�[��[K���܈H	��NNL��B����[Y[���][[Y[��RY
+	�[�[\���K�^�۝[�H\����[Y[���][[Y[��RY
+	�[�[[�]��K�^�۝[�H[�]���[Y[���][[Y[��RY
+	�[�[�]]��K�^�۝[�H�]]���[Y[���][[Y[��RY
+	�]Z[[�[	�K��\��\��Y
+	�X�]�I�NB���[��[ۈ���S[�[
+]�[�
+HY�
+]�[�	��]�[��\��]OOH��[Y[���][[Y[��RY
+	�]Z[[�[	�JH�]\����[Y[���][[Y[��RY
+	�]Z[[�[	�K��\��\���[[ݙJ	�X�]�I�NB����[Y[��Y]�[�\�[�\�	��^Y�ۉ��[��[ۊJHY�
+K��^HOOH	�\��\I�H���S[�[
+
+NJN��ܚ\��؛�O���[�
